@@ -84,6 +84,7 @@ export function TravelGuideHero({
                 Read the Methodology
               </Button>
               <TextInput
+                    id="homepage-hero-date"
                     
                     type="date"
                     placeholder="mm/dd/yyyy"

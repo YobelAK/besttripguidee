@@ -154,8 +154,10 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
             {!isMobile && (
               <Tabs.List>
                 <Tabs.Tab value="Fastboat">Fastboat</Tabs.Tab>
-                <Tabs.Tab value="watersport">Watersport & Tour</Tabs.Tab>
-                <Tabs.Tab value="beachclub">Beach Club</Tabs.Tab>
+                <Tabs.Tab value="watersport">Watersport</Tabs.Tab>
+                <Tabs.Tab value="tour">Tour</Tabs.Tab>
+                <Tabs.Tab value="activity">Activity</Tabs.Tab>
+                <Tabs.Tab value="rental">Rental</Tabs.Tab>
               </Tabs.List>
             )}
 
@@ -547,7 +549,7 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
               </Grid>
             </Tabs.Panel>
 
-            <Tabs.Panel value="beachclub">
+            <Tabs.Panel value="tour">
               <Grid mt="md">
                 <Grid.Col span={{ base: 12, md: 3 }}>
                   <Select
@@ -555,9 +557,9 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
                     placeholder="Select Location"
                     leftSection={<IconMapPin size={20} />}
                     data={[
-                      { value: 'seminyak', label: 'Seminyak' },
-                      { value: 'canggu', label: 'Canggu' },
-                      { value: 'uluwatu', label: 'Uluwatu' }
+                      { value: 'nusa-penida', label: 'Nusa Penida' },
+                      { value: 'ubud', label: 'Ubud' },
+                      { value: 'kuta', label: 'Kuta' }
                     ]}
                     styles={{
                       input: {
@@ -575,7 +577,31 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
                     }}
                   />
                 </Grid.Col>
-
+                <Grid.Col span={{ base: 12, md: 3 }}>
+                  <Select
+                    label="Tour Type"
+                    placeholder="Select Tour Type"
+                    data={[
+                      { value: 'full-day', label: 'Full Day' },
+                      { value: 'half-day', label: 'Half Day' },
+                      { value: 'private', label: 'Private' }
+                    ]}
+                    styles={{
+                      input: {
+                        backgroundColor: '#f5f7fa',
+                        border: '1px solid #d1d5db',
+                        '&:focus': {
+                          borderColor: '#284361'
+                        }
+                      },
+                      label: {
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginBottom: '8px'
+                      }
+                    }}
+                  />
+                </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 3 }}>
                   <TextInput
                     label="Date"
@@ -598,16 +624,34 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
                     }}
                   />
                 </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 3 }} style={{ display: 'flex', alignItems: 'end' }}>
+                  <Button
+                    fullWidth
+                    leftSection={<IconSearch size={20} />}
+                    style={{
+                      backgroundColor: '#284361',
+                      '&:hover': {
+                        backgroundColor: '#1f3349'
+                      }
+                    }}
+                  >
+                    Search Tours
+                  </Button>
+                </Grid.Col>
+              </Grid>
+            </Tabs.Panel>
 
+            <Tabs.Panel value="activity">
+              <Grid mt="md">
                 <Grid.Col span={{ base: 12, md: 3 }}>
                   <Select
-                    label="Guests"
-                    placeholder="Select Guests"
-                    leftSection={<IconUsers size={20} />}
+                    label="Location"
+                    placeholder="Select Location"
+                    leftSection={<IconMapPin size={20} />}
                     data={[
-                      { value: '1', label: '1 Guest' },
-                      { value: '2', label: '2 Guests' },
-                      { value: '3+', label: '3+ Guests' }
+                      { value: 'nusa-dua', label: 'Nusa Dua' },
+                      { value: 'sanur', label: 'Sanur' },
+                      { value: 'ubud', label: 'Ubud' }
                     ]}
                     styles={{
                       input: {
@@ -625,7 +669,53 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
                     }}
                   />
                 </Grid.Col>
-
+                <Grid.Col span={{ base: 12, md: 3 }}>
+                  <Select
+                    label="Activity Type"
+                    placeholder="Select Activity"
+                    data={[
+                      { value: 'hiking', label: 'Hiking' },
+                      { value: 'cycling', label: 'Cycling' },
+                      { value: 'snorkeling', label: 'Snorkeling' }
+                    ]}
+                    styles={{
+                      input: {
+                        backgroundColor: '#f5f7fa',
+                        border: '1px solid #d1d5db',
+                        '&:focus': {
+                          borderColor: '#284361'
+                        }
+                      },
+                      label: {
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginBottom: '8px'
+                      }
+                    }}
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 3 }}>
+                  <TextInput
+                    label="Date"
+                    type="date"
+                    placeholder="mm/dd/yyyy"
+                    leftSection={<IconCalendar size={20} />}
+                    styles={{
+                      input: {
+                        backgroundColor: '#f5f7fa',
+                        border: '1px solid #d1d5db',
+                        '&:focus': {
+                          borderColor: '#284361'
+                        }
+                      },
+                      label: {
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginBottom: '8px'
+                      }
+                    }}
+                  />
+                </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 3 }} style={{ display: 'flex', alignItems: 'end' }}>
                   <Button
                     fullWidth
@@ -637,7 +727,99 @@ export function SearchBar({ fromOptions = [], toOptions = [] }: { fromOptions?: 
                       }
                     }}
                   >
-                    Search Beach Clubs
+                    Search Activities
+                  </Button>
+                </Grid.Col>
+              </Grid>
+            </Tabs.Panel>
+
+            <Tabs.Panel value="rental">
+              <Grid mt="md">
+                <Grid.Col span={{ base: 12, md: 3 }}>
+                  <Select
+                    label="Location"
+                    placeholder="Select Location"
+                    leftSection={<IconMapPin size={20} />}
+                    data={[
+                      { value: 'denpasar', label: 'Denpasar' },
+                      { value: 'canggu', label: 'Canggu' },
+                      { value: 'ubud', label: 'Ubud' }
+                    ]}
+                    styles={{
+                      input: {
+                        backgroundColor: '#f5f7fa',
+                        border: '1px solid #d1d5db',
+                        '&:focus': {
+                          borderColor: '#284361'
+                        }
+                      },
+                      label: {
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginBottom: '8px'
+                      }
+                    }}
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 3 }}>
+                  <Select
+                    label="Vehicle Type"
+                    placeholder="Select Vehicle"
+                    data={[
+                      { value: 'car', label: 'Car' },
+                      { value: 'motorbike', label: 'Motorbike' },
+                      { value: 'van', label: 'Van' }
+                    ]}
+                    styles={{
+                      input: {
+                        backgroundColor: '#f5f7fa',
+                        border: '1px solid #d1d5db',
+                        '&:focus': {
+                          borderColor: '#284361'
+                        }
+                      },
+                      label: {
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginBottom: '8px'
+                      }
+                    }}
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 3 }}>
+                  <TextInput
+                    label="Pickup Date"
+                    type="date"
+                    placeholder="mm/dd/yyyy"
+                    leftSection={<IconCalendar size={20} />}
+                    styles={{
+                      input: {
+                        backgroundColor: '#f5f7fa',
+                        border: '1px solid #d1d5db',
+                        '&:focus': {
+                          borderColor: '#284361'
+                        }
+                      },
+                      label: {
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginBottom: '8px'
+                      }
+                    }}
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 3 }} style={{ display: 'flex', alignItems: 'end' }}>
+                  <Button
+                    fullWidth
+                    leftSection={<IconSearch size={20} />}
+                    style={{
+                      backgroundColor: '#284361',
+                      '&:hover': {
+                        backgroundColor: '#1f3349'
+                      }
+                    }}
+                  >
+                    Search Rentals
                   </Button>
                 </Grid.Col>
               </Grid>
