@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import { Container, Box, Group, Text, SimpleGrid, Stack, Grid, GridCol } from '@mantine/core';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -18,7 +18,9 @@ export default function RentalBookingPage() {
   const rentersLabel = useMemo(() => `${Math.max(1, guestCount)} Renters`, [guestCount]);
   return (
     <Box style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column' }}>
-      <Header />
+      <Suspense fallback={<Box component="header" style={{ height: 64 }} />}>
+        <Header />
+      </Suspense>
       <ProgressIndicator currentStep={1} />
       <Box component="main" style={{ flex: 1 }}>
         <Container size="xl" pb="xl">

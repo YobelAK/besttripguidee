@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Container, Box, SimpleGrid, Stack, Title, Text, Grid } from '@mantine/core';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -22,7 +22,9 @@ export default function PaymentPage() {
 
   return (
     <Box style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
-      <Header />
+      <Suspense fallback={<Box component="header" style={{ height: 64 }} />}>
+        <Header />
+      </Suspense>
       
       <Box component="main">
         <Container size="xl" py="xl">

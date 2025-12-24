@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Container, Box, Group, Text, ActionIcon, SimpleGrid, Stack, Grid, GridCol } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
@@ -20,7 +20,9 @@ export default function TourBookingPage() {
   const participantsLabel = useMemo(() => `${Math.max(1, guestCount)} Participants`, [guestCount]);
   return (
     <Box style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column' }}>
-      <Header />
+      <Suspense fallback={<Box component="header" style={{ height: 64 }} />}>
+        <Header />
+      </Suspense>
       <ProgressIndicator currentStep={1} />
       
       {/* Back Button */}

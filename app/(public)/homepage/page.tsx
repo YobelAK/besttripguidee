@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { TravelGuideHero } from '@/components/homepage/TravelGuideHero';
@@ -11,7 +11,9 @@ import { Box } from '@mantine/core';
 export default function Page() {
   return (
     <>
-      <Header />
+      <Suspense fallback={<div style={{ height: 64 }} />}>
+        <Header />
+      </Suspense>
       <TravelGuideHero />
       <Box my="xl">
         <TripGuide />

@@ -3,7 +3,7 @@
 import React, { Suspense } from 'react';
 import { Menu as MenuIcon, X, ChevronDown, Globe, DollarSign, Search, User, CalendarDays, Users, LifeBuoy, LogOut, Heart } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   AppShell, 
   Group, 
@@ -29,7 +29,6 @@ import { useAuth } from '@/app/providers';
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const auth = useAuth();
   const [logoutLoading, setLogoutLoading] = React.useState(false);
   const [navLoginLoading, setNavLoginLoading] = React.useState(false);
@@ -84,21 +83,26 @@ export function Header() {
     return pathname === path;
   };
 
-  const currentRedirect = React.useMemo(() => {
+  const getCurrentRedirect = React.useCallback(() => {
     try {
-      const path = pathname || '/';
-      const qs = searchParams?.toString() || '';
-      return qs ? `${path}?${qs}` : path;
-    } catch { return pathname || '/'; }
-  }, [pathname, searchParams]);
+      if (typeof window !== 'undefined') {
+        const p = window.location.pathname || '/';
+        const s = window.location.search || '';
+        return s ? `${p}${s}` : p;
+      }
+      return pathname || '/';
+    } catch {
+      return pathname || '/';
+    }
+  }, [pathname]);
   React.useEffect(() => {
     try {
-      const x = currentRedirect || '/';
       if (typeof window !== 'undefined') {
+        const x = getCurrentRedirect() || '/';
         localStorage.setItem('last_path', x);
       }
     } catch {}
-  }, [currentRedirect]);
+  }, [getCurrentRedirect]);
  
   return (
     <Suspense fallback={<Box component="header" style={{ height: 64 }} />}>
@@ -259,11 +263,12 @@ export function Header() {
                   size="sm"
                   style={{ paddingInline: 10 }}
                   loading={navLoginLoading}
-                  onClick={() => {
-                    if (navLoginLoading) return;
-                    setNavLoginLoading(true);
-                    router.push(`/login?redirectTo=${encodeURIComponent(currentRedirect || '/')}`);
-                  }}
+                onClick={() => {
+                  if (navLoginLoading) return;
+                  setNavLoginLoading(true);
+                  const redir = getCurrentRedirect() || '/';
+                  router.push(`/login?redirectTo=${encodeURIComponent(redir)}`);
+                }}
                 >
                   Login
                 </Button>
@@ -272,11 +277,12 @@ export function Header() {
                   size="sm"
                   style={{ backgroundColor: '#284361', paddingInline: 12 }}
                   loading={navRegisterLoading}
-                  onClick={() => {
-                    if (navRegisterLoading) return;
-                    setNavRegisterLoading(true);
-                    router.push(`/register?redirectTo=${encodeURIComponent(currentRedirect || '/')}`);
-                  }}
+                onClick={() => {
+                  if (navRegisterLoading) return;
+                  setNavRegisterLoading(true);
+                  const redir = getCurrentRedirect() || '/';
+                  router.push(`/register?redirectTo=${encodeURIComponent(redir)}`);
+                }}
                 >
                   Register
                 </Button>
