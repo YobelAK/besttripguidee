@@ -1,0 +1,143 @@
+import React from 'react';
+import { Paper, Stack, Title, Group, Text, Divider, Button } from '@mantine/core';
+import { IconChevronRight } from '@tabler/icons-react';
+import Link from 'next/link';
+
+interface BookingSummaryProps {
+  trip?: string;
+  departureDate?: string;
+  passengers?: string;
+  passengerPrice?: number;
+  portFee?: number;
+  addOns?: Array<{
+    id: string;
+    title: string;
+    price: number;
+    originalPrice?: number;
+  }>;
+  nextStep?: string;
+  nextStepLabel?: string;
+  showContinueButton?: boolean;
+  buttonText?: string;
+  onContinue?: () => void;
+}
+
+export function BookingSummary({ 
+  trip = 'Car Rental — Toyota Avanza',
+  departureDate = '12 Oct 2025, 09:00 AM',
+  passengers = '2 Days',
+  passengerPrice = 450000,
+  portFee = 20000,
+  addOns = [],
+  nextStep = '/rental/book/addons', 
+  nextStepLabel = 'Continue',
+  showContinueButton = true,
+  buttonText,
+  onContinue
+}: BookingSummaryProps) {
+  const addOnsTotal = addOns.reduce((total, addOn) => total + addOn.price, 0);
+  const totalPrice = passengerPrice + portFee + addOnsTotal;
+
+  const handleContinue = () => {
+    if (onContinue) {
+      onContinue();
+    }
+  };
+
+  return (
+    <Paper shadow="sm" radius="lg" bg="white" p="xl" style={{ position: 'sticky', top: 24 }}>
+      <Stack gap="xl">
+        <Title order={2} size="lg" style={{ fontWeight: 600, color: '#111827' }}>
+          Booking Summary
+        </Title>
+        <Stack gap="md">
+          <Group justify="space-between" align="flex-start">
+            <Text size="sm" c="dimmed">Vehicle</Text>
+            <Text size="sm" style={{ fontWeight: 500, color: '#111827' }} ta="right">
+              {trip}
+            </Text>
+          </Group>
+          <Group justify="space-between" align="flex-start">
+            <Text size="sm" c="dimmed">Rental Date</Text>
+            <Text size="sm" style={{ fontWeight: 500, color: '#111827' }}>
+              {departureDate}
+            </Text>
+          </Group>
+          <Group justify="space-between" align="flex-start">
+            <Text size="sm" c="dimmed">Rental Duration</Text>
+            <Text size="sm" style={{ fontWeight: 500, color: '#111827' }}>{passengers}</Text>
+          </Group>
+        </Stack>
+        <Divider />
+        <Stack gap="sm">
+          <Group justify="space-between" align="center">
+            <Text size="sm" c="#374151">Base Price</Text>
+            <Text size="sm" style={{ fontWeight: 500, color: '#111827' }}>IDR {passengerPrice.toLocaleString('id-ID')}</Text>
+          </Group>
+          <Group justify="space-between" align="center">
+            <Text size="sm" c="#374151">Service Fee</Text>
+            <Text size="sm" style={{ fontWeight: 500, color: '#111827' }}>IDR {portFee.toLocaleString('id-ID')}</Text>
+          </Group>
+          {addOns.map((addOn) => (
+            <Group key={addOn.id} justify="space-between" align="center">
+              <Text size="sm" c="#374151">{addOn.title}</Text>
+              <Text size="sm" style={{ fontWeight: 500, color: '#111827' }}>IDR {addOn.price.toLocaleString('id-ID')}</Text>
+            </Group>
+          ))}
+        </Stack>
+        <Divider />
+        <Stack gap="xs">
+          <Group justify="space-between" align="center">
+            <Text size="md" style={{ fontWeight: 600, color: '#111827' }}>Total</Text>
+            <Text size="lg" style={{ fontWeight: 700, color: '#111827' }}>IDR {totalPrice.toLocaleString('id-ID')}</Text>
+          </Group>
+          <Text size="xs" c="dimmed">
+            All prices include tax and handling fee.
+          </Text>
+        </Stack>
+        {showContinueButton && (
+          <>
+            {onContinue ? (
+              <Button
+                onClick={handleContinue}
+                fullWidth
+                size="md"
+                radius="lg"
+                rightSection={<IconChevronRight size={20} />}
+                styles={{
+                  root: {
+                    backgroundColor: '#284361',
+                    '&:hover': { backgroundColor: '#1f3450' },
+                    fontWeight: 600,
+                    padding: '12px 24px'
+                  }
+                }}
+              >
+                {buttonText || nextStepLabel}
+              </Button>
+            ) : (
+              <Link href={nextStep}>
+                <Button
+                  fullWidth
+                  size="md"
+                  radius="lg"
+                  rightSection={<IconChevronRight size={20} />}
+                  styles={{
+                    root: {
+                      backgroundColor: '#284361',
+                      '&:hover': { backgroundColor: '#1f3450' },
+                      fontWeight: 600,
+                      padding: '12px 24px'
+                    }
+                  }}
+                >
+                  {buttonText || nextStepLabel}
+                </Button>
+              </Link>
+            )}
+          </>
+        )}
+      </Stack>
+    </Paper>
+  );
+}
